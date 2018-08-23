@@ -34,8 +34,8 @@ data_frame["label"] = data_frame[forecast_col].shift(-forecast_out)
 X = np.array(data_frame.drop(["label"], axis=1))
 # scale down (normalize) the features. This takes big processing time
 X = preprocessing.scale(X)
-X = X[:-forecast_out]
 X_lately = X[-forecast_out:]
+X = X[:-forecast_out]
 
 data_frame.dropna(inplace=True)
 y = np.array(data_frame["label"])
@@ -56,7 +56,7 @@ with open("linearregression.pickle", 'wb') as f:
     pickle.dump(clf, f)
 # Reopen your pickle model
 pickle_in = open("linearregression.pickle", 'rb')
-# Load the model in 
+# Load the model in
 clf = pickle.load(pickle_in)
 
 
