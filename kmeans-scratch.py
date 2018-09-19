@@ -12,12 +12,12 @@ X = np.array([[1, 2],
             [1, 0.6],
             [9, 11]])
 
-plt.scatter(X[:,0], X[:,1], s=150)
-plt.show()
+# plt.scatter(X[:,0], X[:,1], s=150)
+# plt.show()
 
 
 # the colors used to label each different centroid class
-colors = 10*["g.", "r.", "c.", "b.", "k."]
+colors = 10*["g", "r", "c", "b", "k"]
 
 
 class K_Means:
@@ -35,6 +35,49 @@ class K_Means:
             self.classifications = {}
 
             for i in range(self.k):
+                self.classifications[i] = [] # kClass as key, feature sets as value
+
+            for featureset in data:
+                # calculate k number of average distances to centroids for one featureset
+                distances = [np.linalg.norm(featureset-self.centroids[centroid]) for centroid in self.centroids]
+                # Get index of which centroid is closer
+                classification = distances.index(min(distances))
+                # Append that point to the classification's index
+                self.classifications[classification].append(featureset)
+            # Getting ready to compare centroid change
+            prev_centroids = dict(self.centroids)
+
+            for classification in self.classifications:
+                pass
+                # self.centroids[classification] = np.average(self.classifications[classification], axis=0)
+            optimized = True
+
+            for c in self.centroids:
+                original_centroid = prev_centroids[c]
+                current_centroid = self.centroids[c]
+                if np.sum((current_centroid - original_centroid)/original_centroid * 100.0) > self.tol:
+                    optimized = False
+            if optimized:
+                break
+
 
     def predict(self, data):
-        pass
+        # calculate k number of average distances to centroids for one featureset
+        distances = [np.linalg.norm(data-self.centroids[centroid]) for centroid in self.centroids]
+        # Get index of which centroid is closer
+        classification = distances.index(min(distances))
+        return classification
+
+clf = K_Means()
+clf.fit(X)
+
+for centroid in clf.centroids:
+    plt.scatter(clf.centroids[centroid][0], clf.centroids[centroid][1],
+                marker="o", color="k", s=150, linewidths=5)
+
+for classification in clf.classifications:
+    color = colors[classification]
+    for featureset in clf.classifications[classification]:
+        plt.scatter(featureset[0], featureset[1], marker="x", color=color, s=150, linewidths=5)
+
+plt.show()
