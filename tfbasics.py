@@ -1,11 +1,11 @@
 import tensorflow as tf
 
-x1 = tf.constant([5])
-x2 = tf.constant([6])
+x1 = tf.constant(5)
+x2 = tf.constant(6)
 
 # result = x1 * x2  # This works, but it is slow
-result = tf.matmul(x1, x2)  # Abstract Tensor in computation graph
-print(result)
+result = tf.multiply(x1, x2)  # Abstract Tensor in computation graph. Usually use matmul()
+print("Result:", result)
 
 # sess = tf.Session()
 # print(sess.run(result))  # Computations run here
