@@ -49,13 +49,14 @@ class K_Means:
 
             for classification in self.classifications:
                 pass
-                # self.centroids[classification] = np.average(self.classifications[classification], axis=0)
+                self.centroids[classification] = np.average(self.classifications[classification], axis=0)
             optimized = True
 
             for c in self.centroids:
                 original_centroid = prev_centroids[c]
                 current_centroid = self.centroids[c]
                 if np.sum((current_centroid - original_centroid)/original_centroid * 100.0) > self.tol:
+                    print(np.sum((current_centroid - original_centroid)/original_centroid * 100.0))
                     optimized = False
             if optimized:
                 break
@@ -79,5 +80,17 @@ for classification in clf.classifications:
     color = colors[classification]
     for featureset in clf.classifications[classification]:
         plt.scatter(featureset[0], featureset[1], marker="x", color=color, s=150, linewidths=5)
+
+unknowns = np.array([[1, 2],
+                    [12, 2],
+                    [6, 1],
+                    [3, 4],
+                    [5, 6],
+                    [8, 2]])
+for unknown in unknowns:
+    predictions = clf.predict(unknown)
+    print(predictions)
+    plt.scatter(unknown[0], unknown[1], marker="*", color=colors[predictions], linewidth=2)
+
 
 plt.show()
