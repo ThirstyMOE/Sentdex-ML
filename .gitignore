@@ -1,2 +1,4 @@
 Pipfile
 Pipfile.lock
+
+sentiment-analisys/sentiment_set.pickle

@@ -18,7 +18,7 @@ def create_lexicon(pos, neg):
     lexicon = []
     for fi in [pos, neg]:
         with open(fi, 'r') as f:
-            contents = f.readLines()
+            contents = f.readlines()
             for l in contents[:hm_lines]:
                 all_words = word_tokenize(l.lower())
                 lexicon += list(all_words)
@@ -37,9 +37,9 @@ def sample_handling(sample, lexicon, classification):
     featureset = []
 
     with open(sample, 'r') as f:
-        contents = f.readLines()
-        for l in content[:hm_lines]:
-            current_words = word.tokenize(l.lower())
+        contents = f.readlines()
+        for l in contents[:hm_lines]:
+            current_words = word_tokenize(l.lower())
             current_words = [lemmatizer.lemmatize(i) for i in current_words]
             features = np.zeros(len(lexicon))
             for word in current_words:
@@ -69,7 +69,7 @@ def create_feature_sets_and_labels(pos, neg, test_size=0.1):
 
     return train_x, train_y, test_x, test_y
 
-if __name == '__main__':
+if __name__ == '__main__':
     train_x, train_y, test_x, test_y = create_feature_sets_and_labels('pos.txt', 'neg.txt')
     with open('sentiment_set.pickle', 'wb') as f:
-        pickle.dump([train_x, train_y, text_x, text_y], f)
+        pickle.dump([train_x, train_y, test_x, test_y], f)

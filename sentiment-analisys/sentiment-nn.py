@@ -1,10 +1,15 @@
 import tensorflow as tf
 from create_sentiment_featureset import create_feature_sets_and_labels
 import numpy as np
+import pickle
 
-# TODO: load in from pickle
 # Data here needs to be massive for language processing
-train_x, train_y, test_x, test_y = create_feature_sets_and_labels('pos.txt', 'neg.txt')
+# Reopen your pickle model
+pickle_in = open("sentiment_set.pickle", 'rb')
+# featureset_list = pickle.load(pickle_in)
+train_x, train_y, test_x, test_y = pickle.load(pickle_in)
+
+# train_x, train_y, test_x, test_y = create_feature_sets_and_labels('pos.txt', 'neg.txt')
 
 # Define layers and node amounts per layer
 n_nodes_hl1 = 500
